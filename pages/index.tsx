@@ -1,3 +1,4 @@
+import StudentForm from "./../components/StudentForm";
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
@@ -10,14 +11,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [students, setStudents] = useState<IStudent[]>([]);
-  const [newName, setNewName] = useState<string>("");
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function addStudent(newName: string) {
     const newStudent = await createStudent(newName);
     setStudents([...students, newStudent]);
-    // refetch: also an option
-    // fetchData();
   }
 
   async function fetchData() {
@@ -46,18 +43,7 @@ export default function Home() {
           <h1>Students</h1>
         </div>
         <div>
-          <form onSubmit={handleSubmit}>
-            <h2>New student</h2>
-            <label htmlFor="name">
-              <input
-                name="name"
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-              />
-            </label>
-            <button type="submit">Add</button>
-          </form>
+          <StudentForm submitForm={addStudent} />
         </div>
         <div className={styles.description}>
           <ul>
