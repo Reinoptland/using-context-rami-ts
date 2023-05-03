@@ -6,20 +6,11 @@
     },
     {
       "id": 2,
-      "name": "Gulnara"
+      "name": "Gulnaraaaa"
     },
     {
       "id": 3,
-      "name": "Marina"
-    },
-    {
-      "id": 4
-    },
-    {
-      "id": 5
-    },
-    {
-      "id": 6
+      "name": "Marinaaaa"
     },
     {
       "name": "Koen",
@@ -44,6 +35,10 @@
     {
       "name": "Rein",
       "id": 12
+    },
+    {
+      "name": "Chris",
+      "id": 13
     }
   ]
 }

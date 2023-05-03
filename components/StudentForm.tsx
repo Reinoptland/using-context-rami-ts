@@ -1,12 +1,20 @@
 import { createStudent } from "@/services/students";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 interface IStudentForm {
   submitForm: (newName: string) => void;
+  mode: string;
+  studentName?: string;
 }
 
 const StudentForm: React.FC<IStudentForm> = (props) => {
-  const [newName, setNewName] = useState<string>("");
+  const [newName, setNewName] = useState<string>(props.studentName || "");
+
+  useEffect(() => {
+    if (props.studentName !== undefined) {
+      setNewName(props.studentName);
+    }
+  }, [props.studentName]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,7 +25,7 @@ const StudentForm: React.FC<IStudentForm> = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>New student</h2>
+      <h2>{props.mode} student</h2>
       <label htmlFor="name">
         <input
           name="name"
@@ -26,7 +34,7 @@ const StudentForm: React.FC<IStudentForm> = (props) => {
           onChange={(e) => setNewName(e.target.value)}
         />
       </label>
-      <button type="submit">Add</button>
+      <button type="submit">{props.mode}</button>
     </form>
   );
 };

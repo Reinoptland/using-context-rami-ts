@@ -1,20 +1,36 @@
 import StudentForm from "./../components/StudentForm";
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IStudent } from "@/entities/student";
-import { createStudent, getStudents } from "@/services/students";
+import { createStudent, getStudents, updateStudent } from "@/services/students";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [students, setStudents] = useState<IStudent[]>([]);
+  const [mode, setMode] = useState("create");
+  const [studentEditId, setStudentEditId] = useState<number | null>(null);
 
   async function addStudent(newName: string) {
     const newStudent = await createStudent(newName);
     setStudents([...students, newStudent]);
+  }
+
+  async function editStudent(newName: string) {
+    if (studentEditId) {
+      const updatedStudent = await updateStudent(newName, studentEditId);
+      setStudents(
+        students.map((student) => {
+          if (updatedStudent.id === student.id) {
+            return updatedStudent;
+          } else {
+            return student;
+          }
+        })
+      );
+    }
   }
 
   async function fetchData() {
@@ -43,13 +59,31 @@ export default function Home() {
           <h1>Students</h1>
         </div>
         <div>
-          <StudentForm submitForm={addStudent} />
+          {mode === "create" ? (
+            <StudentForm submitForm={addStudent} mode={mode} />
+          ) : (
+            <StudentForm
+              submitForm={editStudent}
+              mode={mode}
+              studentName={
+                students.find((student) => student.id === studentEditId)?.name
+              }
+            />
+          )}
         </div>
         <div className={styles.description}>
           <ul>
             {students.map((student) => (
               <li key={student.id}>
-                {student.id} - {student.name}
+                {student.id} - {student.name}{" "}
+                <button
+                  onClick={(e) => {
+                    setMode("edit");
+                    setStudentEditId(student.id);
+                  }}
+                >
+                  ✍️
+                </button>
               </li>
             ))}
           </ul>
