@@ -1,7 +1,45 @@
 {
   "students": [
-    { "id": 1, "name": "Rami" },
-    { "id": 2, "name": "Gulnara" },
-    { "id": 3, "name": "Marina" }
+    {
+      "id": 1,
+      "name": "Rami"
+    },
+    {
+      "id": 2,
+      "name": "Gulnara"
+    },
+    {
+      "id": 3,
+      "name": "Marina"
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "name": "Koen",
+      "id": 7
+    },
+    {
+      "name": "Rohan",
+      "id": 8
+    },
+    {
+      "name": "Kamil",
+      "id": 9
+    },
+    {
+      "name": "Lucas",
+      "id": 10
+    },
+    {
+      "name": "Lucas",
+      "id": 11
+    }
   ]
 }

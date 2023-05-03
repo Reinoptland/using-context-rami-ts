@@ -2,21 +2,30 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { IStudent } from "@/entities/student";
-import { getStudents } from "@/services/students";
+import { createStudent, getStudents } from "@/services/students";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [students, setStudents] = useState<IStudent[]>([]);
+  const [newName, setNewName] = useState<string>("");
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const newStudent = await createStudent(newName);
+    setStudents([...students, newStudent]);
+    // refetch: also an option
+    // fetchData();
+  }
+
+  async function fetchData() {
+    const students = await getStudents();
+    setStudents(students);
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      const students = await getStudents();
-      setStudents(students);
-    }
-
     fetchData();
 
     return () => {
@@ -35,6 +44,20 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className}`}>
         <div className={styles.description}>
           <h1>Students</h1>
+        </div>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <h2>New student</h2>
+            <label htmlFor="name">
+              <input
+                name="name"
+                type="text"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+              />
+            </label>
+            <button type="submit">Add</button>
+          </form>
         </div>
         <div className={styles.description}>
           <ul>
